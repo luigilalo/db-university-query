@@ -2,10 +2,12 @@
 select t.surname , t.name 
 from teachers t 
 order by t.surname , t.name ;
+
 -- 2) Selezionare tutti gli insegnamenti (courses) che valgono almeno 12 crediti
 select *
 from courses c 
 where c.cfu >=12;
+
 -- 3) Selezionare tutti gli studenti nati nel 1990 (160)
 select *
 from students s 
@@ -37,3 +39,22 @@ SELECT *
 FROM degrees d 
 JOIN departments d2 ON d.department_id = d2.id 
 WHERE d.`level` = 'magistrale' AND d2.name = 'Dipartimento di Neuroscienze';
+
+-- BONUS
+
+-- 1) Selezionare nome e cognome di tutti gli studenti che hanno superato l’esame del corso “maxime laboriosam nostrum”
+select s.name, s.surname
+from courses c
+join exams e on c.id = e.course_id 
+join exam_student es on e.id = es.exam_id 
+join students s on es.student_id = s.id 
+where c.name = 'maxime laboriosam nostrum' and es.vote > '18';
+
+-- 2) Elencare tutti i docenti che insegnano nel Dipartimento di Matematica (54)
+select t.name , t.surname
+from departments d 
+join degrees d2 on d.id = d2.department_id
+join courses c on d2.id = c.degree_id 
+join course_teacher ct on c.id = ct.course_id 
+join teachers t on ct.teacher_id  = t.id  
+where d.name = 'Dipartimento di Matematica';
